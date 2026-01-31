@@ -1,0 +1,142 @@
+@font-face {
+  font-family: "IranSansFaNum";
+  src:
+    url("/public/assets/fonts/IRANSansWeb.woff") format("woff"),
+    url("/public/assets/fonts/IRANSansWeb.ttf") format("truetype"),
+    url("/public/assets/fonts/IRANSansWeb.eot") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "IranSansFaNum", Arial, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+.font60 {
+  font-size: 60px !important;
+}
+
+.font8 {
+  font-size: 8px !important;
+}
+
+.font9 {
+  font-size: 9px !important;
+}
+
+.font10 {
+  font-size: 10px !important;
+}
+
+.font11 {
+  font-size: 11px !important;
+}
+
+.font12 {
+  font-size: 12px !important;
+}
+
+.font13 {
+  font-size: 13px !important;
+}
+
+.font14 {
+  font-size: 14px !important;
+}
+
+.font15 {
+  font-size: 15px !important;
+}
+
+.font18 {
+  font-size: 18px !important;
+}
+
+.font20 {
+  font-size: 20px !important;
+}
+
+.font24 {
+  font-size: 24px !important;
+}
+
+.font25 {
+  font-size: 25px !important;
+}
+
+.font30 {
+  font-size: 30px !important;
+}
+
+.font35 {
+  font-size: 35px !important;
+}
+
+.font40 {
+  font-size: 40px !important;
+}
+
+.font45 {
+  font-size: 45px !important;
+}
+
+.font70 {
+  font-size: 70px !important;
+}
+
+.font80 {
+  font-size: 80px !important;
+}
+
+.font90 {
+  font-size: 90px !important;
+}
+
+.font100 {
+  font-size: 100px !important;
+}
+
+.page-link {
+  border-radius: 3px !important;
+  padding: 5px 12px !important;
+  margin: 2px !important;
+  position: relative;
+  display: block;
+  padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
+  font-size: var(--bs-pagination-font-size);
+  color: var(--bs-pagination-color);
+  text-decoration: none;
+  background-color: var(--bs-pagination-bg);
+  border: var(--bs-pagination-border-width) solid
+    var(--bs-pagination-border-color);
+}
+
+.MuiInputBase-input {
+  padding: 10px !important;
+  font-size: 13px !important;
+}
+
+/* Fix label position */
+.MuiInputLabel-root {
+  transform: translate(-11px, 9px) scale(1) !important;
+  font-size: 14px !important;
+}
+
+/* Fix label when focused or filled */
+.MuiInputLabel-shrink {
+  transform: translate(-17px, -9px) scale(0.75) !important;
+}
+
+.mui-rtl-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input.mui-rtl-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input.mui-rtl-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input {
+  padding-left: 24px !important;
+}
+
+.mui-rtl-1w98mmc-MuiAutocomplete-root .MuiOutlinedInput-root {
+  padding: 1px !important;
+  font-size: 13px !important;
+
+}
