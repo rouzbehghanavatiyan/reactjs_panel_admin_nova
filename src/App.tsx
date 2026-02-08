@@ -27,7 +27,6 @@ function App() {
             !isAuthenticated() ? <Login /> : <Navigate to="/home" replace />
           }
         />
-
         <Route
           path="/*"
           element={
