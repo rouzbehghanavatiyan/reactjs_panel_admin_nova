@@ -25,12 +25,14 @@ const AddCover = ({ productItem, setShowAddCover, showAddCover }) => {
 
   const toast = useToast();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [category, setCategory] = useState<any>({});
-  const [subCategories, setSubCategories] = useState<any>({});
+  const [category, setCategory] = useState<any>(null);
+  const [subCategories, setSubCategories] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [allCategories, setAllCategories] = useState<any>([]);
   const [allSubCategories, setAllSubCategories] = useState<any>([]);
   const [preview, setPreview] = useState<string | null>(null);
+
+  console.log(subCategories, category);
 
   const onSubmit = async (data: any) => {
     const file: File = data.imageProductCover;
@@ -38,12 +40,14 @@ const AddCover = ({ productItem, setShowAddCover, showAddCover }) => {
       toast.error("عکسی انتخاب نشده است");
       return;
     }
+
     try {
       const postDataProduct = {
         subcategoryId: subCategories || null,
         categoryId: category || null,
         code: data?.productModel || null,
         title: `${data?.headTitle}n/${data?.subTitle}` || null,
+        redirect: data?.redirect || null,
       };
       if (!productItem?.id) {
         const resProduct = await createCover(postDataProduct);
@@ -54,7 +58,7 @@ const AddCover = ({ productItem, setShowAddCover, showAddCover }) => {
           console.log(file);
           formData.append("fileName", file.name.split(".")[0]);
           formData.append("ext", `.${ext}`);
-          formData.append("productId", null);
+          formData.append("productId", resProduct?.data?.data?.id);
           formData.append("attachmentType", "cov");
           formData.append("attachmentFile", file);
           const resAttachment = await addAttachment(formData);
@@ -97,7 +101,6 @@ const AddCover = ({ productItem, setShowAddCover, showAddCover }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>
- 
         <Grid size={{ xs: 12, sm: 6 }}>
           <Input label="مدل" name="productModel" control={control} />
         </Grid>
@@ -106,6 +109,9 @@ const AddCover = ({ productItem, setShowAddCover, showAddCover }) => {
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Input label="موضوع" name="subTitle" control={control} />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Input label="انتقال به" name="redirect" control={control} />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <ComboBox
@@ -129,6 +135,7 @@ const AddCover = ({ productItem, setShowAddCover, showAddCover }) => {
             optionValue="id"
           />
         </Grid>
+
         <Grid size={{ xs: 12, sm: 6 }}>
           <Controller
             name="imageProductCover"

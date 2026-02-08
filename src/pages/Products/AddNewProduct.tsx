@@ -7,7 +7,7 @@ import Input from "../../components/Input";
 import { useToast } from "../../components/Toastify";
 import { addAttachment } from "../../services";
 
-const AddNewProduct = () => {
+const AddNewProduct: any = ({ showAddNewProduct, setShowAddNewProduct }) => {
   const toast = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -18,13 +18,11 @@ const AddNewProduct = () => {
   const onSubmit = async (data: any) => {
     console.log(data);
     try {
-      
-      
       const file: File = data.newProduct;
       if (!file) {
         toast.error("فایلی انتخاب نشده است");
         return;
-      }      
+      }
       const ext = file.type.split("/")[1];
       const formData = new FormData();
       formData.append("fileName", file.name.split(".")[0]);
@@ -35,6 +33,7 @@ const AddNewProduct = () => {
       const res = await addAttachment(formData);
       if (res?.data?.code === 0) {
         toast.success(res?.data?.message);
+        setShowAddNewProduct(false);
       } else {
         toast.error("خطا در ثبت محصول");
       }
@@ -49,11 +48,9 @@ const AddNewProduct = () => {
         <Grid size={{ xs: 12, sm: 6 }}>
           <Input label="نام محصول" name="title" control={control} />
         </Grid>
-
         <Grid size={{ xs: 12, sm: 6 }}>
           <Input label="توضیحات" name="desc" control={control} />
         </Grid>
-
         <Grid size={{ xs: 12, sm: 6 }}>
           <Controller
             name="newProduct"
@@ -93,7 +90,6 @@ const AddNewProduct = () => {
             )}
           />
         </Grid>
-
         <Grid size={12}>
           <Button fullWidth type="submit" variant="contained" color="success">
             ثبت نهایی

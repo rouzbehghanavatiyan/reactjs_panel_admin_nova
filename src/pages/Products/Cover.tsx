@@ -25,15 +25,13 @@ const Cover = () => {
 
   const handleDeleteProduct = async () => {
     console.log(selectedProduct);
-    if (!selectedProduct?.code) {
+    if (!selectedProduct?.id) {
       toast.error("محصول مورد نظر وجود ندارد");
       return;
     }
     try {
-      const res = await deleteCoverProduct(selectedProduct.code);
-      const { message, code } = res?.data;
-      console.log(res);
-
+      const res = await deleteCoverProduct(selectedProduct.id);
+      const { message, code } = res;
       if (code === 0) {
         toast.success(message);
         setDeleteOpen(false);
@@ -45,8 +43,6 @@ const Cover = () => {
       toast.error("مشکلی در ارتباط با سرور رخ داد");
     }
   };
-
-
 
   const handleGetAllCover = async () => {
     try {

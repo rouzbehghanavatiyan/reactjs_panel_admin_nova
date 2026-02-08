@@ -226,7 +226,10 @@ const NewProduct = () => {
         title="افزودن محصول جدید"
         maxWidth="sm"
       >
-        <AddNewProduct />
+        <AddNewProduct
+          showAddNewProduct={showAddNewProduct}
+          setShowAddNewProduct={setShowAddNewProduct}
+        />
       </Modal>
 
       <BaseTable columns={columns} rows={allNewProduct || []} />
