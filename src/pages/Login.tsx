@@ -13,10 +13,12 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../components/Toastify";
 
 const Login: React.FC = () => {
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast()
 
   const {
     control,
@@ -26,12 +28,16 @@ const Login: React.FC = () => {
     defaultValues: { userName: "", password: "" },
     mode: "onChange",
   });
-
+ 
   const submitData = (data: any) => {
-    // console.log("Login Data:", data);
-    navigate("/home");
-  };
-
+    if (data?.password === "N0v@tOOl$321" && data?.userName === "admin") {
+      localStorage.setItem("token", "temporary-token");
+      navigate("/home");
+    } else {
+      toast.error("کاربر وجود ندارد");
+    }
+  }
+ 
   return (
     <Container
       maxWidth="sm"
