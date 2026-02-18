@@ -12,12 +12,12 @@ import { prefixer } from "stylis";
 import { CacheProvider } from "@emotion/react";
 import RtlCacheProvider from "./utils/RtlCacheProvider.tsx";
 
+document.body.dir = "rtl";
 const cacheRtl = createCache({
   key: "mui-rtl",
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
-// ایجاد theme
 const theme = createTheme({
   direction: "rtl",
   typography: {
@@ -38,5 +38,5 @@ createRoot(document.getElementById("root")!).render(
         </ThemeProvider>
       </CacheProvider>
     </RtlCacheProvider>
-  </StrictMode>
+  </StrictMode>,
 );

@@ -6,6 +6,7 @@ import BaseTable, { BaseTableColumn } from "../../components/BaseTable";
 import StringHelpers from "../../utils/StringHelper";
 import Modal from "../../components/Modal";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import DeleteConfirmDialog from "../../components/DeleteModal";
 import AddNormalProduct from "./AddNormalProduct";
 import { deleteNormalProduct } from "../../services";
@@ -38,16 +39,16 @@ const NormalProduct: React.FC<any> = ({ allNormalProduct }) => {
         );
       },
     },
-    {
-      key: "categoryTitle",
-      title: "دسته",
-      align: "center",
-    },
-    {
-      key: "subcategoryTitle",
-      title: "زیردسته",
-      align: "center",
-    },
+    // {
+    //   key: "categoryTitle",
+    //   title: "دسته",
+    //   align: "center",
+    // },
+    // {
+    //   key: "subcategoryTitle",
+    //   title: "زیردسته",
+    //   align: "center",
+    // },
     {
       key: "name",
       title: "نام محصول",
@@ -62,7 +63,6 @@ const NormalProduct: React.FC<any> = ({ allNormalProduct }) => {
       key: "",
       title: "عملیات",
       render: (row) => {
-        console.log(row);
         const handleDeleteProduct = async () => {
           try {
             const res = await deleteNormalProduct(selectedProduct.code);
@@ -95,13 +95,13 @@ const NormalProduct: React.FC<any> = ({ allNormalProduct }) => {
         return (
           <>
             <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
-              {/* <Btn
+              <Btn
                 icon={<SyncAltIcon />}
                 onClick={handleUpdateItem}
                 title="ویرایش"
                 variant="outlined"
                 color="primary"
-              /> */}
+              />
               <Btn
                 icon={<DeleteOutlineIcon />}
                 onClick={handleOpenDelete}
@@ -128,6 +128,7 @@ const NormalProduct: React.FC<any> = ({ allNormalProduct }) => {
     setProductItem({});
     setShowNormalProduct(true);
   };
+
   return (
     <Box
       sx={{

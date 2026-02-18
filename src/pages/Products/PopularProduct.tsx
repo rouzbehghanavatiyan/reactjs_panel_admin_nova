@@ -6,7 +6,6 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useEffect, useState } from "react";
 import { deletePopularProduct, getProductPopular } from "../../services";
 import BaseTable, { BaseTableColumn } from "../../components/BaseTable";
-import SyncAltIcon from "@mui/icons-material/SyncAlt";
 import Modal from "../../components/Modal";
 import DeleteConfirmDialog from "../../components/DeleteModal";
 import AddPopularProduct from "./AddPopularProduct";

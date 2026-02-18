@@ -25,14 +25,16 @@ interface BaseTableProps<T> {
   rowsPerPageOptions?: number[];
   defaultRowsPerPage?: number;
   emptyText?: string;
+  isFilteredRows?: boolean;
 }
 
 function BaseTable<T>({
   columns,
   rows,
+  isFilteredRows = true,
   rowsPerPageOptions = [5, 10, 25, 50],
   defaultRowsPerPage = 10,
-  emptyText = "داده‌ای وجود ندارد",
+  emptyText = "آیتمی برای نمایش وجود ندارد",
 }: BaseTableProps<T>) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
@@ -48,7 +50,7 @@ function BaseTable<T>({
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -62,7 +64,7 @@ function BaseTable<T>({
         return String(row[col.key] ?? "")
           .toLowerCase()
           .includes(filters[col.key].toLowerCase());
-      })
+      }),
     );
   }, [rows, filters, columns]);
 
@@ -88,21 +90,23 @@ function BaseTable<T>({
                   }}
                 >
                   <div style={{ fontWeight: "bold" }}>{col.title}</div>
-                  <TextField
-                    style={{
-                      width: "100%",
-                      marginTop: 1,
-                      fontSize: 5,
-                    }}
-                    placeholder="جستجو . . . "
-                    value={filters[col.key] || ""}
-                    onChange={(e) =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        [col.key]: e.target.value,
-                      }))
-                    }
-                  />
+                  {isFilteredRows && (
+                    <TextField
+                      style={{
+                        width: "100%",
+                        marginTop: 1,
+                        fontSize: 5,
+                      }}
+                      placeholder="جستجو . . . "
+                      value={filters[col.key] || ""}
+                      onChange={(e) =>
+                        setFilters((prev) => ({
+                          ...prev,
+                          [col.key]: e.target.value,
+                        }))
+                      }
+                    />
+                  )}
                 </TableCell>
               ))}
             </TableRow>

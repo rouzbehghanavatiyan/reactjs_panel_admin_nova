@@ -98,6 +98,7 @@ const AddCover = ({ productItem, setShowAddCover, showAddCover }) => {
   useEffect(() => {
     handleGetAllSubCategories();
   }, [category]);
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>

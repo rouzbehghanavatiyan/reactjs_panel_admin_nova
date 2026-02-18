@@ -96,3 +96,25 @@ export const deleteNormalProduct = async (id) => {
   const response = await axios.delete(url);
   return response?.data;
 };
+
+export const createDetail = async (postData: any) => {
+  const url = `${baseURL}/detail/createDetail`;
+  const response = await axios.post(url, postData);
+  return response?.data;
+};
+
+export const getAllDetails = async () => {
+  const url = `${baseURL}/detail/getAllDetails`;
+  return await axios.get(url);
+};
+
+export const createSubDetails = async (postData: any) => {
+  const url = `${baseURL}/subDetails/createSubDetails`;
+  const response = await axios.post(url, postData);
+  return response?.data;
+};
+
+export const getAllSubDetails = async () => {
+  const url = `${baseURL}/subDetails/allSubDetails`;
+  return await axios.get(url);
+};

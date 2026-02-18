@@ -30,6 +30,7 @@ const menuItems = [
   { text: "ویژگی‌ها", icon: <LocalOfferIcon />, path: "/features" },
   { text: "بنر", icon: <PeopleIcon />, path: "/cover" },
   { text: "مدیریت ثبت", icon: <BarChartIcon />, path: "/reports" },
+  { text: "ثبت مشخصات", icon: <BarChartIcon />, path: "/detailsProduct" },
   { text: "تنظیمات", icon: <SettingsIcon />, path: "/settings" },
 ];
 

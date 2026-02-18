@@ -104,29 +104,19 @@ body {
   border-radius: 3px !important;
   padding: 5px 12px !important;
   margin: 2px !important;
-  position: relative;
-  display: block;
-  padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
-  font-size: var(--bs-pagination-font-size);
-  color: var(--bs-pagination-color);
-  text-decoration: none;
-  background-color: var(--bs-pagination-bg);
-  border: var(--bs-pagination-border-width) solid
-    var(--bs-pagination-border-color);
 }
 
 .MuiInputBase-input {
   padding: 10px !important;
   font-size: 13px !important;
+  text-align: right !important;
 }
 
-/* Fix label position */
 .MuiInputLabel-root {
   transform: translate(-11px, 9px) scale(1) !important;
   font-size: 14px !important;
 }
 
-/* Fix label when focused or filled */
 .MuiInputLabel-shrink {
   transform: translate(-17px, -9px) scale(0.75) !important;
 }
@@ -136,7 +126,19 @@ body {
 }
 
 .mui-rtl-1w98mmc-MuiAutocomplete-root .MuiOutlinedInput-root {
-  padding: 1px !important;
+  padding: 0 5px !important;
   font-size: 13px !important;
+}
 
+.MuiFormControl-root {
+  direction: rtl;
+}
+
+.mui-rtl-1jhnv8w-MuiAutocomplete-root .MuiOutlinedInput-root {
+  padding: 0px !important;
+}
+
+.mui-rtl-1jhnv8w-MuiAutocomplete-root .MuiAutocomplete-tag {
+  /* margin: 10px !important; */
+  background-color: rgb(223, 241, 255) !important;
 }

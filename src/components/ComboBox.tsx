@@ -1,10 +1,10 @@
-import { TextField, Autocomplete } from "@mui/material";
+import { TextField, Autocomplete, Chip } from "@mui/material";
 
 type ComboBoxProps<T> = {
   label: string;
-  value: any;
+  value: T | T[] | null;
   options: T[];
-  onChange: (value: any) => void;
+  onChange: (value: T | T[] | null) => void;
 
   optionLabel?: string;
   optionValue?: string;
@@ -17,7 +17,7 @@ type ComboBoxProps<T> = {
   placeholder?: string;
 };
 
-export function ComboBox<T>({
+export function ComboBox<T extends { [key: string]: any }>({
   label,
   value,
   options = [],
@@ -31,33 +31,42 @@ export function ComboBox<T>({
   helperText,
   placeholder,
 }: ComboBoxProps<T>) {
-  // تبدیل value خام به option واقعی
-  const getSelectedValue = () => {
-    if (multiple && Array.isArray(value)) {
-      return options.filter((opt: any) => value.includes(opt[optionValue]));
-    }
-    return options.find((opt: any) => opt[optionValue] === value) ?? null;
-  };
+  const opts = Array.isArray(options) ? options : [];
+
+  // 🔥 مهم: اگر multiple فعال است، value باید آرایه باشد
+  const safeValue = multiple
+    ? Array.isArray(value)
+      ? value
+      : []
+    : value ?? null;
 
   return (
     <Autocomplete
+      multiple={multiple}
       fullWidth={fullWidth}
       disabled={disabled}
-      multiple={multiple}
-      options={options}
-      value={getSelectedValue()}
+      options={opts}
+      value={safeValue}
+      disableCloseOnSelect={multiple}
       clearOnEscape
       onChange={(_, newValue) => {
-        if (multiple) {
-          const vals = (newValue as any[]).map((item) => item[optionValue]);
-          onChange(vals);
-        } else {
-          onChange(newValue ? (newValue as any)[optionValue] : null);
-        }
+        onChange(newValue as T | T[] | null);
       }}
-      getOptionLabel={(option: any) => option?.[optionLabel]?.toString() ?? ""}
-      isOptionEqualToValue={(opt: any, val: any) =>
-        opt[optionValue] === val[optionValue]
+      getOptionLabel={(option: T) =>
+        option?.[optionLabel]?.toString() ?? ""
+      }
+      isOptionEqualToValue={(opt: T, val: T) =>
+        opt?.[optionValue] === val?.[optionValue]
+      }
+      renderTags={(value, getTagProps) =>
+        multiple
+          ? (value as T[]).map((option, index) => (
+              <Chip
+                {...getTagProps({ index })}
+                label={option[optionLabel]}
+              />
+            ))
+          : null
       }
       renderInput={(params) => (
         <TextField

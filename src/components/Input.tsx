@@ -42,12 +42,12 @@ const Input: React.FC<InputProps> = ({
   placeholder = "",
 }) => {
   const [showPassword, setShowPassword] = React.useState(false);
-  
+
   const normalizeNumber = (input: string) => {
     const persian = "۰۱۲۳۴۵۶۷۸۹";
     const english = "0123456789";
     return input.replace(/[۰-۹]/g, (d) => english[persian.indexOf(d)]);
-  }
+  };
   return (
     <Grid size={size}>
       <Controller
@@ -57,7 +57,10 @@ const Input: React.FC<InputProps> = ({
         rules={rules}
         render={({ field, fieldState }) => (
           <TextField
+            dir="rtl"
             {...field}
+            inputProps={{ style: { textAlign: "right" } }}
+            InputLabelProps={{ style: { right: 0, left: "auto" } }}
             onChange={(e) => field.onChange(normalizeNumber(e.target.value))}
             value={field.value ?? ""}
             fullWidth
@@ -75,10 +78,10 @@ const Input: React.FC<InputProps> = ({
               textArea
                 ? undefined
                 : type === "password"
-                ? showPassword
-                  ? "text"
-                  : "password"
-                : type
+                  ? showPassword
+                    ? "text"
+                    : "password"
+                  : type
             }
             disabled={disabled}
             error={!!fieldState.error}

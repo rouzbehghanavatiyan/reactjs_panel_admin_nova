@@ -18,17 +18,18 @@ import {
   getAllSubCategories,
   getDescription,
   updateDes,
+  updateProduct,
 } from "../../services";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import ClearSharpIcon from "@mui/icons-material/ClearSharp";
 import Btn from "../../components/Btn";
 import { ComboBox } from "../../components/ComboBox";
 import AddIcon from "@mui/icons-material/Add";
+import StringHelpers from "../../utils/StringHelper";
 
 const AddNormalProduct: React.FC<any> = ({
   setShowNormalProduct,
   productItem,
-  setProductItem,
 }) => {
   const toast = useToast();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -37,12 +38,15 @@ const AddNormalProduct: React.FC<any> = ({
   const [allSubCategories, setAllSubCategories] = useState<any>([]);
   const [category, setCategory] = useState<any>({});
   const [subCategories, setSubCategories] = useState<any>({});
+  const fixEditImage =
+    productItem?.id &&
+    StringHelpers.getProfile(productItem.attachments[0], productItem?.code);
   const [features, setFeatures] = useState<
     Array<{ id?: number; title: string }>
   >(
     productItem?.features?.map((f) => ({ id: f.id, title: f.title })) || [
       { title: "" },
-    ]
+    ],
   );
   const [description, setDescription] = useState<string>("");
   const { control, handleSubmit } = useForm<any>({
@@ -82,25 +86,24 @@ const AddNormalProduct: React.FC<any> = ({
     }
     try {
       const postDataProduct = {
-        subcategoryId: subCategories || null,
-        categoryId: category || null,
+        subcategoryId: subCategories?.id || null,
+        categoryId: category?.categoryid || null,
         code: data?.productModel || null,
         name: data?.productName || null,
         en_name: data?.englishName || null,
+        position: "product",
         title: data?.productTitle || null,
         des: {
-          content: data?.description || null,
+          content: description || null,
         },
         features: features.filter((f) => f.title.trim() !== ""),
       };
-      console.log("Data to send:", postDataProduct);
       if (!productItem?.id) {
         const resProduct = await createProduct(postDataProduct);
         if (resProduct?.data?.code === 0) {
           const productId = resProduct?.data?.data?.id;
           const ext = file.type.split("/")[1];
           const formData = new FormData();
-          console.log(file);
           formData.append("fileName", file.name.split(".")[0]);
           formData.append("ext", `.${ext}`);
           formData.append("productId", productId);
@@ -117,9 +120,13 @@ const AddNormalProduct: React.FC<any> = ({
           toast.error(resProduct?.data?.message);
         }
       } else {
+        const resUpdateProduct = await updateProduct(
+          productItem?.id,
+          postDataProduct,
+        );
+        console.log(resUpdateProduct);
         const postDataDes = { content: data?.description || null };
         const resProductDes = await updateDes(productItem?.id, postDataDes);
-        console.log(resProductDes);
       }
     } catch (error) {
       console.log(error);
@@ -131,22 +138,27 @@ const AddNormalProduct: React.FC<any> = ({
     setAllCategories(res?.data?.data);
   };
 
-  const handleGetAllSubCategories = async () => {
-    const res = await getAllSubCategories(category);
-    setAllSubCategories(res?.data?.data);
-  };
-
-  const handleDescription = async () => {
+  const handleGetAllSubCategories = async (categoryId: any) => {
+    if (!categoryId) return;
     try {
-      const res = await getDescription(productItem?.id);
-      const { code, data } = res?.data;
-      if (code === 0) {
-        setDescription(data.content);
-      } else {
-        toast.error("توضیحات یافت نشد");
+      const res = await getAllSubCategories(categoryId);
+      const subs = res?.data?.data || [];
+      setAllSubCategories(subs);
+
+      if (productItem?.subcategoryId) {
+        const selectedSub = subs.find(
+          (sub) => sub.id === productItem.categoryId,
+        );
+        console.log(productItem, allSubCategories, subs);
+        if (selectedSub) {
+          setSubCategories(selectedSub);
+        }
+      } else if (subs.length > 0) {
+        setSubCategories(subs[0].subcategoryId);
       }
-    } catch (e) {
-      toast.error("خطا در دریافت توضیحات");
+    } catch (error) {
+      toast.error("خطا در دریافت زیرشاخه‌ها");
+      console.log(error);
     }
   };
 
@@ -155,14 +167,22 @@ const AddNormalProduct: React.FC<any> = ({
   }, []);
 
   useEffect(() => {
-    handleGetAllSubCategories();
+    if (category?.categoryid) {
+      handleGetAllSubCategories(category.categoryid);
+    }
   }, [category]);
 
   useEffect(() => {
-    if (productItem?.id) {
-      handleDescription();
+    if (productItem?.id && allCategories.length > 0) {
+      const selected = allCategories.find(
+        (cat) => cat.categoryid === productItem.categoryId,
+      );
+        setDescription(productItem?.des?.content);
+      if (selected) {
+        setCategory(selected);
+      }
     }
-  }, [productItem?.id]);
+  }, [productItem?.id, allCategories]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -218,28 +238,26 @@ const AddNormalProduct: React.FC<any> = ({
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <ComboBox
-            // defaultValue={productItem?.id && productItem?.categoryId}
             label="دسته"
+            options={allCategories}
+            optionLabel="categoryname"
+            optionValue="categoryid"
             value={category}
             onChange={(e: any) => setCategory(e)}
-            options={allCategories}
-            optionLabel="title_per"
-            optionValue="id"
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <ComboBox
-            // defaultValue={productItem?.id && productItem?.subcategoryId}
             label="زیر دسته"
-            value={subCategories}
-            onChange={(e: any) => setSubCategories(e)}
             options={allSubCategories}
             optionLabel="title"
             optionValue="id"
+            value={subCategories}
+            onChange={(val: any) => setSubCategories(val)}
           />
         </Grid>
         <Grid size={12}>
-          <Input
+          {/* <Input
             defaultValue={productItem?.id && description}
             name="description"
             label="توضیحات"
@@ -253,6 +271,16 @@ const AddNormalProduct: React.FC<any> = ({
               },
             }}
             size={12}
+          /> */}
+          <TextField
+            multiline
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            minRows={3}
+            fullWidth
+            defaultValue={productItem?.id ? description : ""}
+            name="description"
+            label="توضیحات"
           />
         </Grid>
         {features.map((feature, index) => (
@@ -289,6 +317,9 @@ const AddNormalProduct: React.FC<any> = ({
             <Typography variant="body1">اضافه کردن ویژگی جدید</Typography>
           </Box>
         </Grid>
+        {productItem?.id && (
+          <img src={fixEditImage} width={200} height={200} loading="lazy" />
+        )}
         <Grid size={{ xs: 12, sm: 12 }}>
           <Controller
             name="normalProduct"
