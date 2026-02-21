@@ -4,14 +4,15 @@ import Input from "../../components/Input";
 import { createSubDetails } from "../../services";
 
 const SubDetailModal: React.FC<any> = ({ control, handleSubmit }) => {
+
   const handleConfirm = async (data) => {
-    try {
-      const postData = { title: data?.subDetail };
-      const res = await createSubDetails(postData);
-      console.log(res);
-    } catch (err) {
-      console.error(err);
-    }
+    // try {
+    //   const postData = { title: data?.subDetail };
+    //   const res = await createSubDetails(postData);
+    //   console.log(res);
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return (

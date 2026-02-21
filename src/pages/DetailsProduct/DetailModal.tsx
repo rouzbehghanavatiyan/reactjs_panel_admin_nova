@@ -5,13 +5,13 @@ import { createDetail } from "../../services";
 const DetailModal = ({ control, handleSubmit }) => {
 
   const handleConfirm = async (data) => {
-    try {
-      const postData = { title: data?.detail };
-      const res = await createDetail(postData);
-      console.log(res);
-    } catch (err) {
-      console.error(err);
-    }
+    // try {
+    //   const postData = { title: data?.detail };
+    //   const res = await createDetail(postData);
+    //   console.log(res);
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return (

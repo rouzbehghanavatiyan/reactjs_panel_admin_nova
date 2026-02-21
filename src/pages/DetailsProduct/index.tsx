@@ -110,8 +110,8 @@ const DetailsProduct = () => {
 
   useEffect(() => {
     handleGetProducts();
-    handleGetDetails();
-    handleGetAllSubDetails();
+    // handleGetDetails();
+    // handleGetAllSubDetails();
   }, []);
 
   return (
