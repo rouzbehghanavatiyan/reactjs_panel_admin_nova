@@ -4,13 +4,18 @@ import { Box, Button } from "@mui/material";
 import { ComboBox } from "../../components/ComboBox";
 import Modal from "../../components/Modal";
 import BaseTable, { BaseTableColumn } from "../../components/BaseTable";
-import { getAllDetails, getAllProduct, getAllSubDetails } from "../../services";
+import {
+  createDetailSubDetail,
+  getAllDetails,
+  getAllProduct,
+  getAllSubDetails,
+} from "../../services";
 import DetailModal from "./DetailModal";
 import SubDetailModal from "./SubDetailModal";
 
 const DetailsProduct = () => {
   const [allProducts, setAllProducts] = useState([]);
-  const [details, setDetails] = useState({});
+  const [details, setDetails] = useState<any>({});
   const [subDetailes, setSubDetailes] = useState({});
   const [allDetailes, setAllDetailes] = useState([]);
   const [allSubDetailes, setAllSubDetailes] = useState([]);
@@ -27,22 +32,29 @@ const DetailsProduct = () => {
     mode: "onChange",
   });
 
-  console.log(allSubDetailes, subDetailes);
-
-  const onSubmit = async (data: any) => {};
+  const onSubmit = async () => {
+    console.log(rows);
+    const fixSubDetails = rows.map((item) => ({
+      detailId: item?.details?.id,
+      productId: item?.product?.id,
+      subDetailes: item?.subDetailes?.map((item) => item?.id),
+    }));
+    console.log(fixSubDetails);
+    const res = await createDetailSubDetail(fixSubDetails);
+  };
 
   const handleAddRow = () => {
-    if (!product || !details) return;
+    // if (!product || !details) return;
 
-    const newRow = {
-      id: Date.now(),
-      product: product,
-      details: details,
-      subDetailes: subDetailes,
-    };
+    // const newRow = {
+    //   id: Date.now(),
+    //   product: product,
+    //   details: details,
+    //   subDetailes: subDetailes,
+    // };
 
-    setRows((prev) => [...prev, newRow]);
-    setShowDetailModal(false);
+    // setRows((prev) => [...prev, newRow]);
+    // setShowDetailModal(false);
   };
 
   const columns: BaseTableColumn<any>[] = [
@@ -110,7 +122,7 @@ const DetailsProduct = () => {
 
   useEffect(() => {
     handleGetProducts();
-    // handleGetDetails();
+    handleGetDetails();
     // handleGetAllSubDetails();
   }, []);
 
@@ -157,6 +169,7 @@ const DetailsProduct = () => {
             </Box>
             <Box flex={1} minWidth={250}>
               <ComboBox
+                disabled={details?.id ? true : false}
                 label="مشخصات"
                 value={details}
                 onChange={(e) => setDetails(e)}
@@ -229,7 +242,11 @@ const DetailsProduct = () => {
         title="ایجادزیرمشخصه"
         maxWidth="sm"
       >
-        <SubDetailModal handleSubmit={handleSubmit} control={control} />
+        <SubDetailModal
+          details={details}
+          handleSubmit={handleSubmit}
+          control={control}
+        />
       </Modal>
     </>
   );

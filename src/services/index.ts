@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const baseURL: string | undefined = import.meta.env.VITE_URL;
 
 export const getAllCover = async () => {
@@ -117,4 +118,9 @@ export const createSubDetails = async (postData: any) => {
 export const getAllSubDetails = async () => {
   const url = `${baseURL}/subDetails/allSubDetails`;
   return await axios.get(url);
+};
+
+export const createDetailSubDetail = async (data) => {
+  const url = `${baseURL}/product/createDetailSubDetail`;
+  return await axios.post(url, data);
 };
