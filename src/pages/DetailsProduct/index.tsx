@@ -45,14 +45,12 @@ const DetailsProduct = () => {
 
   const handleAddRow = () => {
     // if (!product || !details) return;
-
     // const newRow = {
     //   id: Date.now(),
     //   product: product,
     //   details: details,
     //   subDetailes: subDetailes,
     // };
-
     // setRows((prev) => [...prev, newRow]);
     // setShowDetailModal(false);
   };
@@ -96,7 +94,12 @@ const DetailsProduct = () => {
   const handleGetProducts = async () => {
     try {
       const resAllProduct = await getAllProduct();
-      setAllProducts(resAllProduct?.data?.data);
+      console.log(resAllProduct?.data?.data);
+      const fixAllProduct = resAllProduct?.data?.data?.map((item) => ({
+        id: item?.id,
+        label: `(${item?.code}) - ${item?.name}`,
+      }));
+      setAllProducts(fixAllProduct);
     } catch (error) {
       console.log(error);
     }
@@ -125,6 +128,8 @@ const DetailsProduct = () => {
     handleGetDetails();
     // handleGetAllSubDetails();
   }, []);
+
+  console.log(allProducts);
 
   return (
     <>
@@ -200,7 +205,7 @@ const DetailsProduct = () => {
                 value={product}
                 onChange={(e) => setProduct(e)}
                 options={allProducts}
-                optionLabel="name"
+                optionLabel="label"
                 optionValue="id"
               />
             </Box>

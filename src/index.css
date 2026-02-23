@@ -118,14 +118,10 @@ body {
 }
 
 .MuiInputLabel-shrink {
-  transform: translate(-17px, -9px) scale(0.75) !important;
+  transform: translate(-14px, -9px) scale(0.75) !important;
 }
 
-.mui-rtl-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input.mui-rtl-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input.mui-rtl-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input {
-  padding-left: 24px !important;
-}
-
-.mui-rtl-1w98mmc-MuiAutocomplete-root .MuiOutlinedInput-root {
+.MuiAutocomplete-root .MuiOutlinedInput-root {
   padding: 0 5px !important;
   font-size: 13px !important;
 }
@@ -133,12 +129,21 @@ body {
 .MuiFormControl-root {
   direction: rtl;
 }
+ 
+.MuiSelect-select,
+.MuiNativeSelect-select {
+  padding-left: 124px !important;
+}
 
-.mui-rtl-1jhnv8w-MuiAutocomplete-root .MuiOutlinedInput-root {
+.MuiAutocomplete-root .MuiOutlinedInput-root {
+  padding: 0 5px !important;
+  font-size: 13px !important;
+}
+
+.MuiAutocomplete-root .MuiOutlinedInput-root {
   padding: 0px !important;
 }
 
-.mui-rtl-1jhnv8w-MuiAutocomplete-root .MuiAutocomplete-tag {
-  /* margin: 10px !important; */
+.MuiAutocomplete-tag {
   background-color: rgb(223, 241, 255) !important;
 }

@@ -32,16 +32,23 @@ export function ComboBox<T extends { [key: string]: any }>({
   placeholder,
 }: ComboBoxProps<T>) {
   const opts = Array.isArray(options) ? options : [];
-
-  // 🔥 مهم: اگر multiple فعال است، value باید آرایه باشد
   const safeValue = multiple
     ? Array.isArray(value)
       ? value
       : []
-    : value ?? null;
+    : (value ?? null);
 
   return (
     <Autocomplete
+      sx={{
+        "& .MuiOutlinedInput-root": {
+          padding: "0 5px",
+          fontSize: "13px",
+        },
+        "& .MuiAutocomplete-tag": {
+          backgroundColor: "rgb(223, 241, 255)",
+        },
+      }}
       multiple={multiple}
       fullWidth={fullWidth}
       disabled={disabled}
@@ -52,19 +59,14 @@ export function ComboBox<T extends { [key: string]: any }>({
       onChange={(_, newValue) => {
         onChange(newValue as T | T[] | null);
       }}
-      getOptionLabel={(option: T) =>
-        option?.[optionLabel]?.toString() ?? ""
-      }
+      getOptionLabel={(option: T) => option?.[optionLabel]?.toString() ?? ""}
       isOptionEqualToValue={(opt: T, val: T) =>
         opt?.[optionValue] === val?.[optionValue]
       }
       renderTags={(value, getTagProps) =>
         multiple
           ? (value as T[]).map((option, index) => (
-              <Chip
-                {...getTagProps({ index })}
-                label={option[optionLabel]}
-              />
+              <Chip {...getTagProps({ index })} label={option[optionLabel]} />
             ))
           : null
       }
