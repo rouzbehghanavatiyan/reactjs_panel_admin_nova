@@ -1,4 +1,9 @@
-import { TextField, Autocomplete, Chip } from "@mui/material";
+import {
+  TextField,
+  Autocomplete,
+  Chip,
+  createFilterOptions,
+} from "@mui/material";
 
 type ComboBoxProps<T> = {
   label: string;
@@ -38,8 +43,16 @@ export function ComboBox<T extends { [key: string]: any }>({
       : []
     : (value ?? null);
 
+  const filterOptions = createFilterOptions({
+    matchFrom: "any",
+    stringify: (option: T) => option[optionLabel] || "",
+    trim: true,
+  });
+
   return (
     <Autocomplete
+      filterOptions={filterOptions}
+      key={JSON.stringify(opts)}
       sx={{
         "& .MuiOutlinedInput-root": {
           padding: "0 5px",
